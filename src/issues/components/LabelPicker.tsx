@@ -1,25 +1,26 @@
-import { useQuery } from '@tanstack/react-query';
+import { useLabels } from '../hooks/useLabels';
 
 export const LabelPicker = () => {
-  const getLabels = async() => {
-    const rest = await fetch('https://api.github.com/repos/facebook/react/labels');
-    const data = await rest.json();
-    return;
-  }
+  const { labelsQuery } = useLabels();
 
-  const labelQuery = useQuery(
-    ['labels'], // nombre de espacio en caché
-    getLabels
-  );
+  if (labelsQuery.isLoading) {
+    return(<h1>loading...</h1>)
+  }
 
   return (
     <div>
-        <span 
+      {
+        labelsQuery.data?.map( label => (
+
+          <span
+            key={label.id}
             className="badge rounded-pill m-1 label-picker"
-            style={{ border: `1px solid #ffccd3`, color: '#ffccd3' }}
-        >
-            Primary
-        </span>
+            style={{ border: `1px solid #${label.color}`, color: `#${label.color}` }}
+          >
+            { label.name }
+          </span>
+        ))
+      }
         
     </div>
   )
