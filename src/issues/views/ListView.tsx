@@ -22,7 +22,7 @@ export const ListView = () => {
       
       <div className="col-8">
         {
-          issuesQuery.isLoading ? (<LoadingIcon />) : (<IssueList issues={issuesQuery?.data} />)
+          issuesQuery.isLoading ? (<LoadingIcon />) : (<IssueList issues={issuesQuery?.data || []} />)
         }
       </div>
       
